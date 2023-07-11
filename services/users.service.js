@@ -8,6 +8,10 @@ class UserService {
       // 닉네임 : 알파벳 대소문자, 숫자, 3자 이상 10자 이하
       const checkNickname = /^[a-zA-Z0-9]{3,10}$/;
 
+      const userByNickname = await this.userRepository.findOneByNickname(
+        nickname
+      );
+
       // 닉네임, 비밀번호 형식 체크 : 중복 닉네임 추가해야함
       if (!nickname || !password || !confirmPassword) {
         const err = new Error('모든 항목을 입력해주셔야 합니다.');
@@ -27,6 +31,12 @@ class UserService {
         throw err;
       } else if (password !== confirmPassword) {
         const err = new Error('패스워드가 일치하지 않습니다.');
+        err.statusCode = 412;
+        throw err;
+      }
+
+      if (userByNickname) {
+        const err = new Error('중복된 닉네임입니다.');
         err.statusCode = 412;
         throw err;
       }
