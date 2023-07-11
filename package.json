@@ -1,0 +1,31 @@
+{
+  "name": "project_blog_lv5",
+  "version": "1.0.0",
+  "description": "노드 심화 주차 개인 프로젝트(Lv5)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kinnjoo/PROJECT_Blog_LV5.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kinnjoo/PROJECT_Blog_LV5/issues"
+  },
+  "homepage": "https://github.com/kinnjoo/PROJECT_Blog_LV5#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "mysql2": "^3.5.1",
+    "sequelize": "^6.32.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.0",
+    "sequelize-cli": "^6.6.1"
+  }
+}
