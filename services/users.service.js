@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+const secretKey = require('../config/secretKey.json');
+
 const UserRepository = require('../repositories/users.repository.js');
 
 class UserService {
@@ -56,6 +59,26 @@ class UserService {
       message: '회원가입 되었습니다.',
       nickname: signupUserData.nickname,
     };
+  };
+
+  // 로그인
+  doLogin = async (nickname, password) => {
+    const userByNickname = await this.userRepository.findOneByNickname(
+      nickname,
+      password
+    );
+
+    if (!userByNickname || userByNickname.password !== password) {
+      return {
+        status: 412,
+        message: '닉네임과 패스워드를 다시 확인해주세요.',
+        token: null,
+      };
+    }
+
+    const token = jwt.sign({}, secretKey.key);
+
+    return { token, message: '로그인 되었습니다.' };
   };
 }
 

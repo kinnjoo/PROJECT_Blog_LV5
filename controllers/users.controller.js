@@ -15,6 +15,25 @@ class UsersController {
 
     return res.status(status).json(message);
   };
+
+  // 로그인
+  loginUser = async (req, res, next) => {
+    const { nickname, password } = req.body;
+    const { status, message, token } = await this.userService.doLogin(
+      nickname,
+      password
+    );
+
+    if (!token) {
+      return res.status(status).json(message);
+    }
+
+    res.cookie('Authorization', `Bearer ${token}`);
+    return res.status(200).json({
+      token,
+      message,
+    });
+  };
 }
 
 module.exports = UsersController;
