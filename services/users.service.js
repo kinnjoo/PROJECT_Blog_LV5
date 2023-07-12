@@ -12,7 +12,7 @@ class UserService {
         nickname
       );
 
-      // 닉네임, 비밀번호 형식 체크 : 중복 닉네임 추가해야함
+      // 닉네임, 비밀번호 형식 체크
       if (!nickname || !password || !confirmPassword) {
         const err = new Error('모든 항목을 입력해주셔야 합니다.');
         err.statusCode = 400;

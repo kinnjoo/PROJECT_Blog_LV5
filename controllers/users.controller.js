@@ -7,6 +7,7 @@ class UsersController {
   // 회원가입
   signupUser = async (req, res, next) => {
     const { nickname, password, confirmPassword } = req.body;
+
     try {
       const signupUserData = await this.userService.signupUser(
         nickname,
@@ -14,7 +15,7 @@ class UsersController {
         confirmPassword
       );
 
-      if (!nickname || !password || !confirmPassword) {
+      if (!signupUserData) {
         return res
           .status(400)
           .json({ errorMessage: '회원 가입에 실패하였습니다.' });
