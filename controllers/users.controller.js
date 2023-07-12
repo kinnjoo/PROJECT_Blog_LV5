@@ -29,10 +29,7 @@ class UsersController {
     }
 
     res.cookie('Authorization', `Bearer ${token}`);
-    return res.status(200).json({
-      token,
-      message,
-    });
+    return res.status(200).json({ message });
   };
 }
 

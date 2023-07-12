@@ -53,11 +53,9 @@ class UserService {
       password
     );
 
-    // 사용자에게 보여줄 데이터
     return {
       status: 201,
       message: '회원가입 되었습니다.',
-      nickname: signupUserData.nickname,
     };
   };
 
