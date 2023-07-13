@@ -18,7 +18,7 @@ class PostsController {
 
   // 게시글 상세 조회
   getPostById = async (req, res) => {
-    const { postId } = req.param;
+    const { postId } = req.params;
 
     const { status, message, post } = await this.postService.findOnePost(
       postId
