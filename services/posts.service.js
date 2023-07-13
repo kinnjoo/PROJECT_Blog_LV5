@@ -64,6 +64,23 @@ class PostService {
 
     return { status: 200, post };
   };
+
+  // 게시글 작성
+  createPost = async (title, content, userId) => {
+    await this.postRepository.createPost({ title, content, UserId: userId });
+
+    if (!title || !content) {
+      return {
+        status: 400,
+        message: '게시글 제목 또는 내용이 비어있습니다.',
+      };
+    }
+
+    return {
+      status: 201,
+      message: '게시글을 생성하였습니다.',
+    };
+  };
 }
 
 module.exports = PostService;

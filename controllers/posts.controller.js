@@ -26,6 +26,20 @@ class PostsController {
 
     return res.status(status).json({ message, post });
   };
+
+  // 게시글 작성
+  createPost = async (req, res) => {
+    const { title, content } = req.body;
+    const userId = res.locals.userId;
+
+    const { status, message } = await this.postService.createPost(
+      title,
+      content,
+      userId
+    );
+
+    return res.status(status).json({ message });
+  };
 }
 
 module.exports = PostsController;
