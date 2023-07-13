@@ -27,6 +27,21 @@ class CommentsController {
 
     return res.status(status).json({ message });
   };
+
+  // 댓글 수정
+  updateComment = async (req, res) => {
+    const { content } = req.body;
+    const { commentId } = req.params;
+    const userId = res.locals.userId;
+
+    const { status, message } = await this.commentService.updateComment(
+      content,
+      userId,
+      commentId
+    );
+
+    return res.status(status).json({ message });
+  };
 }
 
 module.exports = CommentsController;

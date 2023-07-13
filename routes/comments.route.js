@@ -16,4 +16,11 @@ router.post(
   commentsController.createComment
 );
 
+// 댓글 수정
+router.put(
+  '/:postId/comments/:commentId',
+  authMiddleware,
+  commentsController.updateComment
+);
+
 module.exports = router;
