@@ -56,6 +56,19 @@ class PostsController {
 
     return res.status(status).json({ message });
   };
+
+  // 게시글 삭제
+  deletePost = async (req, res) => {
+    const { postId } = req.params;
+    const userId = res.locals.userId;
+
+    const { status, message } = await this.postService.deletePost(
+      postId,
+      userId
+    );
+
+    return res.status(status).json({ message });
+  };
 }
 
 module.exports = PostsController;

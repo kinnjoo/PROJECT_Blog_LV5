@@ -18,4 +18,7 @@ router.post('/', authMiddleware, postsController.createPost);
 // 게시글 수정
 router.put('/:postId', authMiddleware, postsController.updatePost);
 
+// 게시글 삭제
+router.delete('/:postId', authMiddleware, postsController.deletePost);
+
 module.exports = router;

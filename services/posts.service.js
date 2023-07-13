@@ -96,7 +96,7 @@ class PostService {
     } else if (userId !== findPostId.UserId) {
       return {
         status: 403,
-        message: '게시글의 수정 권한이 없습니다.',
+        message: '해당 게시글의 수정 권한이 없습니다.',
       };
     } else if (!title || !content) {
       return {
@@ -113,6 +113,32 @@ class PostService {
     return {
       status: 200,
       message: '게시글을 수정하였습니다.',
+    };
+  };
+
+  // 게시글 삭제
+  deletePost = async (postId, userId) => {
+    const findPostId = await this.postRepository.findOnePost({
+      where: { postId },
+    });
+
+    if (!findPostId) {
+      return {
+        status: 404,
+        message: '존재하지 않는 게시글입니다.',
+      };
+    } else if (userId !== findPostId.UserId) {
+      return {
+        status: 403,
+        message: '해당 게시글의 삭제 권한이 없습니다.',
+      };
+    }
+
+    await this.postRepository.deletePost({ where: { postId } });
+
+    return {
+      status: 200,
+      message: '게시글을 삭제하였습니다.',
     };
   };
 }

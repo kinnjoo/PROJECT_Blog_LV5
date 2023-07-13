@@ -24,6 +24,12 @@ class PostRepository {
     const updatePostData = await Posts.update(postData, postOption);
     return updatePostData;
   };
+
+  // 게시글 삭제
+  deletePost = async (postOption) => {
+    const deletePostData = await Posts.destroy(postOption);
+    return deletePostData;
+  };
 }
 
 module.exports = PostRepository;
