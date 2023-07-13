@@ -79,7 +79,7 @@ class UserService {
       };
     }
 
-    const token = jwt.sign({}, secretKey.key);
+    const token = jwt.sign({ userId: userByNickname.userId }, secretKey.key);
 
     return { status: 200, message: '로그인 되었습니다.', token };
   };

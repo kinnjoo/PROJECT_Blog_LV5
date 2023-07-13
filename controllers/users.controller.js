@@ -13,7 +13,7 @@ class UsersController {
       confirmPassword
     );
 
-    return res.status(status).json(message);
+    return res.status(status).json({ message });
   };
 
   // 로그인
@@ -25,7 +25,7 @@ class UsersController {
     );
 
     res.cookie('Authorization', `Bearer ${token}`);
-    return res.status(status).json(message);
+    return res.status(status).json({ message });
   };
 }
 
