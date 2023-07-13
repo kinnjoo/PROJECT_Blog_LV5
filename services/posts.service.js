@@ -10,12 +10,12 @@ class PostService {
       return {
         status: 412,
         message: '잘못된 페이지 입력값입니다.',
-        posts: null,
       };
     }
 
     try {
-      let posts = await this.postRepository.findAllPost({
+      const posts = await this.postRepository.findAllPost({
+        attributes: ['postId', 'title', 'likes', 'createdAt'],
         include: {
           model: Users,
           attributes: ['nickname'],
@@ -25,27 +25,15 @@ class PostService {
         order: [['createdAt', 'DESC']],
       });
 
-      posts = posts.map((post) => {
-        return {
-          postId: post.postId,
-          nickname: post.Users.nickname,
-          title: post.title,
-          createdAt: post.createdAt,
-          updatedAt: post.updatedAt,
-        };
-      });
-
       if (posts.length === 0) {
         return {
           status: 200,
           message: '아직 작성된 게시글이 없습니다.',
-          posts: null,
         };
       }
 
       return {
         status: 200,
-        message: null,
         posts,
       };
     } catch (error) {
