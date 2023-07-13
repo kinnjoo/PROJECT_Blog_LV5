@@ -6,6 +6,7 @@ const UserRepository = require('../repositories/users.repository.js');
 class UserService {
   userRepository = new UserRepository();
 
+  // 회원가입
   signupUser = async (nickname, password, confirmPassword) => {
     // 닉네임 : 알파벳 대소문자, 숫자, 3자 이상 10자 이하
     const checkNickname = /^[a-zA-Z0-9]{3,10}$/;
