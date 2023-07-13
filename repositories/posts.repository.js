@@ -18,6 +18,12 @@ class PostRepository {
     const createPostData = await Posts.create(postOption);
     return createPostData;
   };
+
+  // 게시글 수정
+  updatePost = async (postData, postOption) => {
+    const updatePostData = await Posts.update(postData, postOption);
+    return updatePostData;
+  };
 }
 
 module.exports = PostRepository;

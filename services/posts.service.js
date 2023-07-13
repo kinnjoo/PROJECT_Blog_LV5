@@ -81,6 +81,40 @@ class PostService {
       message: '게시글을 생성하였습니다.',
     };
   };
+
+  // 게시글 수정
+  updatePost = async (title, content, postId, userId) => {
+    const findPostId = await this.postRepository.findOnePost({
+      where: { postId },
+    });
+
+    if (!findPostId) {
+      return {
+        status: 404,
+        message: '존재하지 않는 게시글입니다.',
+      };
+    } else if (userId !== findPostId.UserId) {
+      return {
+        status: 403,
+        message: '게시글의 수정 권한이 없습니다.',
+      };
+    } else if (!title || !content) {
+      return {
+        status: 412,
+        message: '게시글 제목 또는 내용이 비어있습니다.',
+      };
+    }
+
+    await this.postRepository.updatePost(
+      { title, content },
+      { where: { postId } }
+    );
+
+    return {
+      status: 200,
+      message: '게시글을 수정하였습니다.',
+    };
+  };
 }
 
 module.exports = PostService;

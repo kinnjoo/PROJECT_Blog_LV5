@@ -15,4 +15,7 @@ router.get('/:postId', postsController.getPostById);
 // 게시글 작성
 router.post('/', authMiddleware, postsController.createPost);
 
+// 게시글 수정
+router.put('/:postId', authMiddleware, postsController.updatePost);
+
 module.exports = router;

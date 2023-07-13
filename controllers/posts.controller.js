@@ -40,6 +40,22 @@ class PostsController {
 
     return res.status(status).json({ message });
   };
+
+  // 게시글 수정
+  updatePost = async (req, res) => {
+    const { title, content } = req.body;
+    const { postId } = req.params;
+    const userId = res.locals.userId;
+
+    const { status, message } = await this.postService.updatePost(
+      title,
+      content,
+      postId,
+      userId
+    );
+
+    return res.status(status).json({ message });
+  };
 }
 
 module.exports = PostsController;
