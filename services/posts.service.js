@@ -56,6 +56,41 @@ class PostService {
       };
     }
   };
+
+  // 게시글 상세 조회
+  findOnePost = async (postId) => {
+    const post = await this.postRepository.findOnePost({
+      where: { postId },
+      attributes: [
+        'postId',
+        'title',
+        'content',
+        'likes',
+        'createdAt',
+        'updatedAt',
+      ],
+      include: [
+        {
+          model: Users,
+          attributes: ['nickname'],
+        },
+      ],
+    });
+
+    if (!post) {
+      return {
+        status: 404,
+        message: '존재하지 않는 게시글입니다.',
+        post: null,
+      };
+    }
+
+    return {
+      status: 200,
+      message: null,
+      post,
+    };
+  };
 }
 
 module.exports = PostService;

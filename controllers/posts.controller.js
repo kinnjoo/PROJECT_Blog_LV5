@@ -15,6 +15,17 @@ class PostsController {
 
     return res.status(status).json({ message, posts });
   };
+
+  // 게시글 상세 조회
+  getPostById = async (req, res) => {
+    const { postId } = req.param;
+
+    const { status, message, post } = await this.postService.findOnePost(
+      postId
+    );
+
+    return res.status(status).json({ message, post });
+  };
 }
 
 module.exports = PostsController;

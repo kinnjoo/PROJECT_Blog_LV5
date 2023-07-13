@@ -7,6 +7,13 @@ class PostRepository {
 
     return posts;
   };
+
+  // 게시글 상세 조회
+  findOnePost = async (option) => {
+    const post = await Posts.findOne({ whrer: { option } });
+
+    return post;
+  };
 }
 
 module.exports = PostRepository;
