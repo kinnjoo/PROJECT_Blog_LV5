@@ -21,8 +21,14 @@ class CommentRepository {
 
   // 댓글 수정
   updateComment = async (commentData, commentOption) => {
-    const updateComment = await Comments.update(commentData, commentOption);
-    return updateComment;
+    const updateCommentData = await Comments.update(commentData, commentOption);
+    return updateCommentData;
+  };
+
+  // 댓글 삭제
+  deleteComment = async (commentOption) => {
+    const deleteCommentData = await Comments.destroy(commentOption);
+    return deleteCommentData;
   };
 }
 

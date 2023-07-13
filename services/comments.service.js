@@ -84,6 +84,32 @@ class CommentService {
       message: '댓글을 수정하였습니다.',
     };
   };
+
+  // 댓글 삭제
+  deleteComment = async (userId, commentId) => {
+    const findCommentId = await this.commentRepository.findOneComment({
+      where: { commentId },
+    });
+
+    if (!findCommentId) {
+      return {
+        status: 404,
+        message: '존재하지 않는 댓글입니다.',
+      };
+    } else if (userId !== findCommentId.UserId) {
+      return {
+        status: 403,
+        message: '해당 댓글의 삭제 권한이 없습니다.',
+      };
+    }
+
+    await this.commentRepository.deleteComment({ where: { commentId } });
+
+    return {
+      status: 200,
+      message: '댓글을 삭제하였습니다.',
+    };
+  };
 }
 
 module.exports = CommentService;

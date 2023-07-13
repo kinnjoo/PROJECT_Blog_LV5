@@ -23,4 +23,11 @@ router.put(
   commentsController.updateComment
 );
 
+// 댓글 삭제
+router.delete(
+  '/:postId/comments/:commentId',
+  authMiddleware,
+  commentsController.deleteComment
+);
+
 module.exports = router;
