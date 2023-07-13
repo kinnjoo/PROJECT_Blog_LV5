@@ -5,7 +5,7 @@ class CommentService {
   commentRepository = new CommentRepository();
 
   // 댓글 조회
-  findAllComment = async (postId) => {
+  findAllComment = async () => {
     const comments = await this.commentRepository.findAllComment({
       attributes: ['commentId', 'content', 'createdAt', 'updatedAt'],
       include: [
@@ -27,6 +27,27 @@ class CommentService {
     return {
       status: 200,
       comments,
+    };
+  };
+
+  // 댓글 작성
+  createComment = async (content, userId, postId) => {
+    if (!content) {
+      return {
+        status: 400,
+        message: '댓글 내용이 비어있습니다.',
+      };
+    }
+
+    await this.commentRepository.createComment({
+      content,
+      UserId: userId,
+      PostId: postId,
+    });
+
+    return {
+      status: 201,
+      message: '댓글을 작성하였습니다.',
     };
   };
 }
