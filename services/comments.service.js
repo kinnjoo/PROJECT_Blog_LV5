@@ -27,13 +27,6 @@ class CommentService {
       order: [['createdAt', 'DESC']],
     });
 
-    if (comments.length === 0) {
-      return {
-        status: 200,
-        message: '아직 작성된 댓글이 없습니다.',
-      };
-    }
-
     return {
       status: 200,
       comments,
