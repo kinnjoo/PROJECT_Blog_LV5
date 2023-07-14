@@ -5,10 +5,12 @@ class CommentsController {
 
   // 댓글 조회
   getComments = async (req, res) => {
+    const pageSize = Number(req.query.pageSize ? req.query.pageSize : 10);
+    const pageNum = Number(req.query.pageNum ? req.query.pageNum : 1);
     const { postId } = req.params;
 
     const { status, message, comments } =
-      await this.commentService.findAllComment(postId);
+      await this.commentService.findAllComment(pageSize, pageNum, postId);
 
     return res.status(status).json({ message, comments });
   };

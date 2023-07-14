@@ -5,8 +5,16 @@ class CommentService {
   commentRepository = new CommentRepository();
 
   // 댓글 조회
-  findAllComment = async () => {
+  findAllComment = async (pageSize, pageNum, postId) => {
+    if (isNaN(pageSize) || isNaN(pageNum) || pageSize < 1 || pageNum < 1) {
+      return {
+        status: 400,
+        message: '잘못된 페이지 입력값입니다.',
+      };
+    }
+
     const comments = await this.commentRepository.findAllComment({
+      where: { PostId: postId },
       attributes: ['commentId', 'content', 'createdAt', 'updatedAt'],
       include: [
         {
@@ -14,6 +22,8 @@ class CommentService {
           attributes: ['nickname'],
         },
       ],
+      limit: pageSize,
+      offset: (pageNum - 1) * pageSize,
       order: [['createdAt', 'DESC']],
     });
 
