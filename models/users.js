@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.hasMany(models.Posts, {
         sourceKey: 'userId',
-        foreignKey: 'UserId',
+        foreignKey: 'userId',
       });
       this.hasMany(models.Comments, {
         sourceKey: 'userId',
-        foreignKey: 'UserId',
+        foreignKey: 'userId',
       });
       this.belongsToMany(models.Posts, {
         through: 'Likes',

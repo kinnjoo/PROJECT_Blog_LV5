@@ -75,7 +75,7 @@ class PostService {
 
   // 게시글 작성
   createPost = async (title, content, userId) => {
-    await this.postRepository.createPost({ title, content, UserId: userId });
+    await this.postRepository.createPost({ title, content, userId });
 
     if (!title || !content) {
       return {
@@ -101,7 +101,7 @@ class PostService {
         status: 404,
         message: '존재하지 않는 게시글입니다.',
       };
-    } else if (userId !== findPostId.UserId) {
+    } else if (userId !== findPostId.userId) {
       return {
         status: 403,
         message: '해당 게시글의 수정 권한이 없습니다.',
@@ -135,7 +135,7 @@ class PostService {
         status: 404,
         message: '존재하지 않는 게시글입니다.',
       };
-    } else if (userId !== findPostId.UserId) {
+    } else if (userId !== findPostId.userId) {
       return {
         status: 403,
         message: '해당 게시글의 삭제 권한이 없습니다.',

@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.Users, {
         targetKey: 'userId',
-        foreignKey: 'UserId',
+        foreignKey: 'userId',
       });
       this.belongsTo(models.Posts, {
         targetKey: 'postId',
-        foreignKey: 'PostId',
+        foreignKey: 'postId',
       });
     }
   }
@@ -27,11 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      UserId: {
+      userId: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      PostId: {
+      postId: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },

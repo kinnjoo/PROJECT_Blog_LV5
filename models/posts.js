@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.Users, {
         targetKey: 'userId',
-        foreignKey: 'UserId',
+        foreignKey: 'userId',
       });
       this.hasMany(models.Comments, {
         sourceKey: 'postId',
-        foreignKey: 'PostId',
+        foreignKey: 'postId',
       });
       this.belongsToMany(models.Users, {
         through: 'Likes',
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      UserId: {
+      userId: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      likes: {
+      likeCount: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },

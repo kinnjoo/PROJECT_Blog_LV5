@@ -14,7 +14,7 @@ class CommentService {
     }
 
     const comments = await this.commentRepository.findAllComment({
-      where: { PostId: postId },
+      where: { postId },
       attributes: ['commentId', 'content', 'createdAt', 'updatedAt'],
       include: [
         {
@@ -44,8 +44,8 @@ class CommentService {
 
     await this.commentRepository.createComment({
       content,
-      UserId: userId,
-      PostId: postId,
+      userId,
+      postId,
     });
 
     return {
@@ -65,7 +65,7 @@ class CommentService {
         status: 404,
         message: '존재하지 않는 댓글입니다.',
       };
-    } else if (userId !== findCommentId.UserId) {
+    } else if (userId !== findCommentId.userId) {
       return {
         status: 403,
         message: '해당 댓글의 수정 권한이 없습니다.',
@@ -99,7 +99,7 @@ class CommentService {
         status: 404,
         message: '존재하지 않는 댓글입니다.',
       };
-    } else if (userId !== findCommentId.UserId) {
+    } else if (userId !== findCommentId.userId) {
       return {
         status: 403,
         message: '해당 댓글의 삭제 권한이 없습니다.',
