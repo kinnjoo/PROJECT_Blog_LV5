@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.belongsToMany(models.Users, {
         through: 'Likes',
+        foreignKey: 'postId',
       });
     }
   }
