@@ -1,8 +1,10 @@
 const CommentRepository = require('../repositories/comments.repository.js');
+const PostRepository = require('../repositories/posts.repository.js');
 const { Users } = require('../models');
 
 class CommentService {
   commentRepository = new CommentRepository();
+  postRepository = new PostRepository();
 
   // 댓글 조회
   findComments = async (pageSize, pageNum, postId) => {
@@ -56,7 +58,11 @@ class CommentService {
   };
 
   // 댓글 수정
-  updateComment = async (content, commentId, userId) => {
+  updateComment = async (content, postId, commentId, userId) => {
+    const findPostData = await this.postRepository.findOnePost({
+      where: { postId },
+    });
+
     const findCommentData = await this.commentRepository.findOneComment({
       where: { commentId, userId },
     });
@@ -68,7 +74,11 @@ class CommentService {
       };
     }
 
-    if (!findCommentData) {
+    if (
+      !findPostData ||
+      !findCommentData ||
+      findPostData.postId !== findCommentData.postId
+    ) {
       return {
         status: 404,
         message: '잘못된 접근 방법입니다.',
@@ -77,7 +87,7 @@ class CommentService {
 
     await this.commentRepository.updateComment(
       { content },
-      { where: { commentId } }
+      { where: { postId, commentId } }
     );
 
     return {
@@ -87,19 +97,29 @@ class CommentService {
   };
 
   // 댓글 삭제
-  deleteComment = async (commentId, userId) => {
+  deleteComment = async (postId, commentId, userId) => {
+    const findPostData = await this.postRepository.findOnePost({
+      where: { postId },
+    });
+
     const findCommentData = await this.commentRepository.findOneComment({
       where: { commentId, userId },
     });
 
-    if (!findCommentData) {
+    if (
+      !findPostData ||
+      !findCommentData ||
+      findPostData.postId !== findCommentData.postId
+    ) {
       return {
         status: 404,
         message: '잘못된 접근 방법입니다.',
       };
     }
 
-    await this.commentRepository.deleteComment({ where: { commentId } });
+    await this.commentRepository.deleteComment({
+      where: { postId, commentId },
+    });
 
     return {
       status: 200,

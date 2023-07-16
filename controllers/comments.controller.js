@@ -33,11 +33,12 @@ class CommentsController {
   // 댓글 수정
   updateComment = async (req, res) => {
     const { content } = req.body;
-    const { commentId } = req.params;
+    const { postId, commentId } = req.params;
     const userId = res.locals.userId;
 
     const { status, message } = await this.commentService.updateComment(
       content,
+      postId,
       commentId,
       userId
     );
@@ -47,10 +48,11 @@ class CommentsController {
 
   // 댓글 삭제
   deleteComment = async (req, res) => {
-    const { commentId } = req.params;
+    const { postId, commentId } = req.params;
     const userId = res.locals.userId;
 
     const { status, message } = await this.commentService.deleteComment(
+      postId,
       commentId,
       userId
     );
