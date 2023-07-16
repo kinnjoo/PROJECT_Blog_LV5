@@ -5,7 +5,8 @@ class CommentService {
   commentRepository = new CommentRepository();
 
   // 댓글 조회
-  findAllComment = async (pageSize, pageNum, postId) => {
+  findComments = async (pageSize, pageNum, postId) => {
+    // pageSize, pageNum 조건 추가 더 필요(클라이언트에서 높은 값을 요구할 수 없도록)
     if (isNaN(pageSize) || isNaN(pageNum) || pageSize < 1 || pageNum < 1) {
       return {
         status: 400,
@@ -34,7 +35,7 @@ class CommentService {
   };
 
   // 댓글 작성
-  createComment = async (content, userId, postId) => {
+  createComment = async (content, postId, userId) => {
     if (!content) {
       return {
         status: 400,
@@ -44,8 +45,8 @@ class CommentService {
 
     await this.commentRepository.createComment({
       content,
-      userId,
       postId,
+      userId,
     });
 
     return {
@@ -55,25 +56,22 @@ class CommentService {
   };
 
   // 댓글 수정
-  updateComment = async (content, userId, commentId) => {
-    const findCommentId = await this.commentRepository.findOneComment({
-      where: { commentId },
+  updateComment = async (content, commentId, userId) => {
+    const findCommentData = await this.commentRepository.findOneComment({
+      where: { commentId, userId },
     });
 
-    if (!findCommentId) {
-      return {
-        status: 404,
-        message: '존재하지 않는 댓글입니다.',
-      };
-    } else if (userId !== findCommentId.userId) {
-      return {
-        status: 403,
-        message: '해당 댓글의 수정 권한이 없습니다.',
-      };
-    } else if (!content) {
+    if (!content) {
       return {
         status: 412,
         message: '댓글 내용이 비어있습니다.',
+      };
+    }
+
+    if (!findCommentData) {
+      return {
+        status: 404,
+        message: '잘못된 접근 방법입니다.',
       };
     }
 
@@ -89,20 +87,15 @@ class CommentService {
   };
 
   // 댓글 삭제
-  deleteComment = async (userId, commentId) => {
-    const findCommentId = await this.commentRepository.findOneComment({
-      where: { commentId },
+  deleteComment = async (commentId, userId) => {
+    const findCommentData = await this.commentRepository.findOneComment({
+      where: { commentId, userId },
     });
 
-    if (!findCommentId) {
+    if (!findCommentData) {
       return {
         status: 404,
-        message: '존재하지 않는 댓글입니다.',
-      };
-    } else if (userId !== findCommentId.userId) {
-      return {
-        status: 403,
-        message: '해당 댓글의 삭제 권한이 없습니다.',
+        message: '잘못된 접근 방법입니다.',
       };
     }
 

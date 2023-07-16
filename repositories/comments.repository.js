@@ -14,8 +14,8 @@ class CommentRepository {
   };
 
   // 댓글 작성
-  createComment = async (commentOption) => {
-    const createCommentData = await Comments.create(commentOption);
+  createComment = async (commentData) => {
+    const createCommentData = await Comments.create(commentData);
     return createCommentData;
   };
 

@@ -10,7 +10,7 @@ class CommentsController {
     const { postId } = req.params;
 
     const { status, message, comments } =
-      await this.commentService.findAllComment(pageSize, pageNum, postId);
+      await this.commentService.findComments(pageSize, pageNum, postId);
 
     return res.status(status).json({ message, comments });
   };
@@ -23,8 +23,8 @@ class CommentsController {
 
     const { status, message } = await this.commentService.createComment(
       content,
-      userId,
-      postId
+      postId,
+      userId
     );
 
     return res.status(status).json({ message });
@@ -38,8 +38,8 @@ class CommentsController {
 
     const { status, message } = await this.commentService.updateComment(
       content,
-      userId,
-      commentId
+      commentId,
+      userId
     );
 
     return res.status(status).json({ message });
@@ -51,8 +51,8 @@ class CommentsController {
     const userId = res.locals.userId;
 
     const { status, message } = await this.commentService.deleteComment(
-      userId,
-      commentId
+      commentId,
+      userId
     );
 
     return res.status(status).json({ message });

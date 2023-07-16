@@ -5,8 +5,9 @@ class PostService {
   postRepository = new PostRepository();
 
   // 게시글 전체 조회
-  findAllPost = async (pageSize, pageNum) => {
-    if (isNaN(pageSize) || isNaN(pageNum || pageSize < 1 || pageNum < 1)) {
+  findPosts = async (pageSize, pageNum) => {
+    // pageSize, pageNum 조건 추가 더 필요(클라이언트에서 높은 값을 요구할 수 없도록)
+    if (isNaN(pageSize) || isNaN(pageNum) || pageSize < 1 || pageNum < 1) {
       return {
         status: 400,
         message: '잘못된 페이지 입력값입니다.',
@@ -15,7 +16,7 @@ class PostService {
 
     try {
       const posts = await this.postRepository.findAllPost({
-        attributes: ['postId', 'title', 'likes', 'createdAt'],
+        attributes: ['postId', 'title', 'likeCount', 'createdAt'],
         include: [
           {
             model: Users,
@@ -48,7 +49,7 @@ class PostService {
         'postId',
         'title',
         'content',
-        'likes',
+        'likeCount',
         'createdAt',
         'updatedAt',
       ],
@@ -75,14 +76,14 @@ class PostService {
 
   // 게시글 작성
   createPost = async (title, content, userId) => {
-    await this.postRepository.createPost({ title, content, userId });
-
     if (!title || !content) {
       return {
         status: 400,
         message: '게시글 제목 또는 내용이 비어있습니다.',
       };
     }
+
+    await this.postRepository.createPost({ title, content, userId });
 
     return {
       status: 201,
@@ -92,24 +93,21 @@ class PostService {
 
   // 게시글 수정
   updatePost = async (title, content, postId, userId) => {
-    const findPostId = await this.postRepository.findOnePost({
-      where: { postId },
+    const findPostData = await this.postRepository.findOnePost({
+      where: { postId, userId },
     });
 
-    if (!findPostId) {
-      return {
-        status: 404,
-        message: '존재하지 않는 게시글입니다.',
-      };
-    } else if (userId !== findPostId.userId) {
-      return {
-        status: 403,
-        message: '해당 게시글의 수정 권한이 없습니다.',
-      };
-    } else if (!title || !content) {
+    if (!title || !content) {
       return {
         status: 412,
         message: '게시글 제목 또는 내용이 비어있습니다.',
+      };
+    }
+
+    if (!findPostData) {
+      return {
+        status: 404,
+        message: '잘못된 접근 방법입니다.',
       };
     }
 
@@ -126,19 +124,14 @@ class PostService {
 
   // 게시글 삭제
   deletePost = async (postId, userId) => {
-    const findPostId = await this.postRepository.findOnePost({
-      where: { postId },
+    const findPostData = await this.postRepository.findOnePost({
+      where: { postId, userId },
     });
 
-    if (!findPostId) {
+    if (!findPostData) {
       return {
         status: 404,
-        message: '존재하지 않는 게시글입니다.',
-      };
-    } else if (userId !== findPostId.userId) {
-      return {
-        status: 403,
-        message: '해당 게시글의 삭제 권한이 없습니다.',
+        message: '잘못된 접근 방법입니다.',
       };
     }
 

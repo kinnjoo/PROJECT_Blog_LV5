@@ -14,8 +14,8 @@ class PostRepository {
   };
 
   // 게시글 작성
-  createPost = async (postOption) => {
-    const createPostData = await Posts.create(postOption);
+  createPost = async (postData) => {
+    const createPostData = await Posts.create(postData);
     return createPostData;
   };
 

@@ -8,7 +8,7 @@ class PostsController {
     const pageSize = Number(req.query.pageSize ? req.query.pageSize : 10);
     const pageNum = Number(req.query.pageNum ? req.query.pageNum : 1);
 
-    const { status, message, posts } = await this.postService.findAllPost(
+    const { status, message, posts } = await this.postService.findPosts(
       pageSize,
       pageNum
     );

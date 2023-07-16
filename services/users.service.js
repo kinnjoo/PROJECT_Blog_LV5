@@ -12,9 +12,9 @@ class UserService {
     const checkNickname = /^[a-zA-Z0-9]{3,10}$/;
 
     try {
-      const userByNickname = await this.userRepository.findOneByNickname(
-        nickname
-      );
+      const findUserData = await this.userRepository.findOneByUser({
+        where: { nickname },
+      });
 
       // 닉네임, 비밀번호 형식 체크
       if (!nickname || !password || !confirmPassword) {
@@ -22,7 +22,9 @@ class UserService {
           status: 400,
           message: '모든 항목을 입력해주셔야 합니다.',
         };
-      } else if (!checkNickname.test(nickname)) {
+      }
+
+      if (!checkNickname.test(nickname)) {
         return {
           status: 412,
           message: '닉네임의 형식이 올바르지 않습니다.',
@@ -42,7 +44,7 @@ class UserService {
         };
       }
 
-      if (userByNickname) {
+      if (findUserData) {
         return {
           status: 412,
           message: '중복된 닉네임입니다.',
@@ -50,7 +52,7 @@ class UserService {
       }
 
       // 저장소에게 데이터 요청
-      await this.userRepository.signupUser(nickname, password);
+      await this.userRepository.signupUser({ nickname, password });
 
       return {
         status: 201,
@@ -66,20 +68,18 @@ class UserService {
 
   // 로그인
   doLogin = async (nickname, password) => {
-    const userByNickname = await this.userRepository.findOneByNickname(
-      nickname,
-      password
-    );
+    const findUserData = await this.userRepository.findOneByUser({
+      where: { nickname, password },
+    });
 
-    if (!userByNickname || userByNickname.password !== password) {
+    if (!findUserData) {
       return {
         status: 412,
         message: '닉네임과 패스워드를 다시 확인해주세요.',
-        token: null,
       };
     }
 
-    const token = jwt.sign({ userId: userByNickname.userId }, secretKey.key);
+    const token = jwt.sign({ userId: findUserData.userId }, secretKey.key);
 
     return { status: 200, message: '로그인 되었습니다.', token };
   };
