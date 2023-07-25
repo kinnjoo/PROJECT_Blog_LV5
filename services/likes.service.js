@@ -38,7 +38,7 @@ class LikeService {
     }
 
     await this.postRepository.updatePost(
-      { likeCount: findPostData.likes - 1 },
+      { likeCount: findPostData.likeCount - 1 },
       { where: { postId: findPostData.postId } }
     );
     await this.likeRepository.postUnlike({

@@ -7,6 +7,10 @@ const likesController = new LikesController();
 const authMiddleware = require('../middlewares/auth.middleware.js');
 
 // 좋아요, 좋아요 취소
-router.post('/:postId/likes', authMiddleware, likesController.postLikeUnlike);
+router.post(
+  '/likes/posts/:postId',
+  authMiddleware,
+  likesController.postLikeUnlike
+);
 
 module.exports = router;
