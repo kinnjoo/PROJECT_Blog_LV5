@@ -2,34 +2,23 @@ const { Comments } = require('../models');
 
 class CommentRepository {
   // 댓글 조회
-  findAllComment = async (commentOption) => {
-    const comments = await Comments.findAll(commentOption);
-    return comments;
-  };
+  findAllComment = async (commentOption) =>
+    await Comments.findAll(commentOption);
 
   // 댓글 상세 조회
-  findOneComment = async (commentOption) => {
-    const comment = await Comments.findOne(commentOption);
-    return comment;
-  };
+  findOneComment = async (commentOption) =>
+    await Comments.findOne(commentOption);
 
   // 댓글 작성
-  createComment = async (commentData) => {
-    const createCommentData = await Comments.create(commentData);
-    return createCommentData;
-  };
+  createComment = async (commentData) => await Comments.create(commentData);
 
   // 댓글 수정
-  updateComment = async (commentData, commentOption) => {
-    const updateCommentData = await Comments.update(commentData, commentOption);
-    return updateCommentData;
-  };
+  updateComment = async (commentData, commentOption) =>
+    await Comments.update(commentData, commentOption);
 
   // 댓글 삭제
-  deleteComment = async (commentOption) => {
-    const deleteCommentData = await Comments.destroy(commentOption);
-    return deleteCommentData;
-  };
+  deleteComment = async (commentOption) =>
+    await Comments.destroy(commentOption);
 }
 
 module.exports = CommentRepository;

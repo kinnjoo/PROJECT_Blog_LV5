@@ -1,28 +1,16 @@
 const { Likes } = require('../models');
 
 class LikeRepository {
-  findAllLiked = async (likeOption) => {
-    const likeAllData = await Likes.findAll(likeOption);
-    return likeAllData;
-  };
+  findAllLiked = async (likeOption) => await Likes.findAll(likeOption);
 
   // likeData 찾기
-  findOneLiked = async (likeOption) => {
-    const likeData = await Likes.findOne(likeOption);
-    return likeData;
-  };
+  findOneLiked = async (likeOption) => await Likes.findOne(likeOption);
 
   // 좋아요
-  postLike = async (likeOption) => {
-    const like = await Likes.create(likeOption);
-    return like;
-  };
+  postLike = async (likeOption) => await Likes.create(likeOption);
 
   // 좋아요 취소
-  postUnlike = async (unlikeOption) => {
-    const unlike = await Likes.destroy(unlikeOption);
-    return unlike;
-  };
+  postUnlike = async (unlikeOption) => await Likes.destroy(unlikeOption);
 }
 
 module.exports = LikeRepository;
