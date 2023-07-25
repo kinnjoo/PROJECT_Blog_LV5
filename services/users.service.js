@@ -12,10 +12,6 @@ class UserService {
     const checkNickname = /^[a-zA-Z0-9]{3,10}$/;
 
     try {
-      const findUserData = await this.userRepository.findOneByUser({
-        where: { nickname },
-      });
-
       // 닉네임, 비밀번호 형식 체크
       if (!nickname || !password || !confirmPassword) {
         return {
@@ -44,6 +40,10 @@ class UserService {
         };
       }
 
+      const findUserData = await this.userRepository.findOneByUser({
+        where: { nickname },
+      });
+
       if (findUserData) {
         return {
           status: 412,
@@ -51,7 +51,6 @@ class UserService {
         };
       }
 
-      // 저장소에게 데이터 요청
       await this.userRepository.signupUser({ nickname, password });
 
       return {
@@ -68,7 +67,7 @@ class UserService {
 
   // 로그인
   doLogin = async (nickname, password) => {
-    const findUserData = await this.userRepository.findOneByUser({
+    const findUserData = await this.userRepository.findOneUser({
       where: { nickname, password },
     });
 

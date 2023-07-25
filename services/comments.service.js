@@ -59,6 +59,13 @@ class CommentService {
 
   // 댓글 수정
   updateComment = async (content, postId, commentId, userId) => {
+    if (!content) {
+      return {
+        status: 412,
+        message: '댓글 내용이 비어있습니다.',
+      };
+    }
+
     const findPostData = await this.postRepository.findOnePost({
       where: { postId },
     });
@@ -66,13 +73,6 @@ class CommentService {
     const findCommentData = await this.commentRepository.findOneComment({
       where: { commentId, userId },
     });
-
-    if (!content) {
-      return {
-        status: 412,
-        message: '댓글 내용이 비어있습니다.',
-      };
-    }
 
     if (
       !findPostData ||

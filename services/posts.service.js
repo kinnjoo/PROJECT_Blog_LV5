@@ -93,16 +93,16 @@ class PostService {
 
   // 게시글 수정
   updatePost = async (title, content, postId, userId) => {
-    const findPostData = await this.postRepository.findOnePost({
-      where: { postId, userId },
-    });
-
     if (!title || !content) {
       return {
         status: 412,
         message: '게시글 제목 또는 내용이 비어있습니다.',
       };
     }
+
+    const findPostData = await this.postRepository.findOnePost({
+      where: { postId, userId },
+    });
 
     if (!findPostData) {
       return {

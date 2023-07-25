@@ -9,7 +9,7 @@ class UserRepository {
   };
 
   // DB에서 User 찾기
-  findOneByUser = async (userOption) => {
+  findOneUser = async (userOption) => {
     return await Users.findOne(userOption);
   };
 }
