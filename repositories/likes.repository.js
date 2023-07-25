@@ -1,10 +1,15 @@
 const { Likes } = require('../models');
 
 class LikeRepository {
-  // likeId 찾기
-  findOneByLikeId = async (likeOption) => {
-    const likeId = await Likes.findOne(likeOption);
-    return likeId;
+  findAllLiked = async (likeOption) => {
+    const likeAllData = await Likes.findAll(likeOption);
+    return likeAllData;
+  };
+
+  // likeData 찾기
+  findOneLiked = async (likeOption) => {
+    const likeData = await Likes.findOne(likeOption);
+    return likeData;
   };
 
   // 좋아요

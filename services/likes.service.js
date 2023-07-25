@@ -1,9 +1,41 @@
 const LikeRepository = require('../repositories/likes.repository.js');
 const PostRepository = require('../repositories/posts.repository.js');
+const { Users, Posts } = require('../models');
 
 class LikeService {
   likeRepository = new LikeRepository();
   postRepository = new PostRepository();
+
+  // 좋아요 한 게시글 조회
+  findLikedPosts = async (userId) => {
+    const likedPosts = await this.likeRepository.findAllLiked({
+      where: { userId },
+      attributes: ['postId'],
+      include: [
+        {
+          model: Users,
+          attributes: ['nickname'],
+        },
+        {
+          model: Posts,
+          attributes: ['title', 'content', 'likeCount'],
+        },
+      ],
+      order: [[Posts, 'likeCount', 'DESC']],
+    });
+
+    if (likedPosts.length === 0) {
+      return {
+        status: 200,
+        message: '아직 좋아요한 게시글이 없습니다.',
+      };
+    }
+
+    return {
+      status: 200,
+      likedPosts,
+    };
+  };
 
   // 좋아요, 좋아요 취소
   postLikeUnlike = async (postId, userId) => {
@@ -18,7 +50,7 @@ class LikeService {
       };
     }
 
-    const findLikeData = await this.likeRepository.findOneByLikeId({
+    const findLikeData = await this.likeRepository.findOneLiked({
       where: { postId: findPostData.postId, userId },
     });
 
