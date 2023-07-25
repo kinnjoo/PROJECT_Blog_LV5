@@ -6,8 +6,9 @@ const postsRouter = require('./posts.route.js');
 const commentsRouter = require('./comments.route.js');
 const likesRouter = require('./likes.route.js');
 
-router.use('/users', usersRouter);
-router.use('/posts', [postsRouter, commentsRouter]);
+router.use('/', usersRouter);
+router.use('/', postsRouter);
+router.use('/', commentsRouter);
 router.use('/', likesRouter);
 
 module.exports = router;

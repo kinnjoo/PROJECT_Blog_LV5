@@ -5,9 +5,9 @@ const UsersController = require('../controllers/users.controller.js');
 const usersController = new UsersController();
 
 // 회원가입
-router.post('/signup', usersController.signupUser);
+router.post('/users/signup', usersController.signupUser);
 
 // 로그인
-router.post('/login', usersController.loginUser);
+router.post('/users/login', usersController.loginUser);
 
 module.exports = router;
