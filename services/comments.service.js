@@ -8,12 +8,8 @@ class CommentService {
 
   // 댓글 조회
   findComments = async (pageSize, pageNum, postId) => {
-    // pageSize, pageNum 조건 추가 더 필요(클라이언트에서 높은 값을 요구할 수 없도록)
     if (isNaN(pageSize) || isNaN(pageNum) || pageSize < 1 || pageNum < 1) {
-      return {
-        status: 400,
-        message: '잘못된 페이지 입력값입니다.',
-      };
+      (pageSize = 10), (pageNum = 1);
     }
 
     const comments = await this.commentRepository.findAllComment({
