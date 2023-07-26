@@ -111,10 +111,7 @@ class PostService {
       };
     }
 
-    await this.postRepository.updatePost(
-      { title, content },
-      { where: { postId } }
-    );
+    await this.postRepository.updatePost({ title, content }, { postId });
 
     return {
       status: 200,
@@ -135,7 +132,7 @@ class PostService {
       };
     }
 
-    await this.postRepository.deletePost({ where: { postId } });
+    await this.postRepository.deletePost({ postId });
 
     return {
       status: 200,

@@ -40,8 +40,8 @@ class UserService {
         };
       }
 
-      const findUserData = await this.userRepository.findOneByUser({
-        where: { nickname },
+      const findUserData = await this.userRepository.findOneUser({
+        nickname,
       });
 
       if (findUserData) {
@@ -68,7 +68,8 @@ class UserService {
   // 로그인
   doLogin = async (nickname, password) => {
     const findUserData = await this.userRepository.findOneUser({
-      where: { nickname, password },
+      nickname,
+      password,
     });
 
     if (!findUserData) {
@@ -80,7 +81,11 @@ class UserService {
 
     const token = jwt.sign({ userId: findUserData.userId }, secretKey.key);
 
-    return { status: 200, message: '로그인 되었습니다.', token };
+    return {
+      status: 200,
+      message: '로그인 되었습니다.',
+      token,
+    };
   };
 }
 

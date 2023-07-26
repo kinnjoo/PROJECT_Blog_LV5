@@ -85,10 +85,7 @@ class CommentService {
       };
     }
 
-    await this.commentRepository.updateComment(
-      { content },
-      { where: { postId, commentId } }
-    );
+    await this.commentRepository.updateComment({ content }, { commentId });
 
     return {
       status: 200,
@@ -117,9 +114,7 @@ class CommentService {
       };
     }
 
-    await this.commentRepository.deleteComment({
-      where: { postId, commentId },
-    });
+    await this.commentRepository.deleteComment({ commentId });
 
     return {
       status: 200,
